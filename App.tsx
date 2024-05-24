@@ -1,118 +1,76 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/no-unstable-nested-components */
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {SearchScreen} from './src/module/search/search-screen';
+import {HomeScreen} from './src/module/home/home-screen';
+import {ExploreScreen} from './src/module/explore/explore-screen';
+import {VideoPlayer} from './src/module/vedio/vedio-Player';
+import {SubscribeScreen} from './src/module/subscribe/subscribe-screen';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+import {Provider} from 'react-redux';
+import {combineReducers, createStore} from 'redux';
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+import {Colors} from './src/styles';
+import productReducer from './src/reducer/reducer';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+const rootReducer = combineReducers({
+  products: productReducer,
 });
 
-export default App;
+const store = createStore(rootReducer);
+
+const Stack = createStackNavigator();
+const Tabs = createBottomTabNavigator();
+
+const RootHome = () => {
+  return (
+    <Tabs.Navigator
+      screenOptions={({route}) => ({
+        headerShown: false,
+        tabBarIcon: ({color, size}) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = 'home';
+          } else if (route.name === 'Explore') {
+            iconName = 'explore';
+          } else if (route.name === 'Subscribe') {
+            iconName = 'subscriptions';
+          }
+          return <MaterialIcons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: Colors.neutral.white,
+        tabBarInactiveTintColor: Colors.neutral.white,
+        tabBarStyle: {backgroundColor: Colors.neutral.s700, height: 50},
+      })}>
+      <Tabs.Screen name="Home" component={HomeScreen} />
+      <Tabs.Screen name="Explore" component={ExploreScreen} />
+      <Tabs.Screen name="Subscribe" component={SubscribeScreen} />
+    </Tabs.Navigator>
+  );
+};
+
+export default function App() {
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <Stack.Screen name="rootHome" component={RootHome} />
+          <Stack.Screen name="SearchScreen" component={SearchScreen} />
+          <Stack.Screen name="VideoPlayer" component={VideoPlayer} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
+}
