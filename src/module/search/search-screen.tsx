@@ -15,7 +15,7 @@ export const SearchScreen: React.FC = ({navigation}: any) => {
   const miniCardData = useSelector((state: any) => state.products);
 
   useEffect(() => {
-    const filtered = miniCardData.filter(item =>
+    const filtered = miniCardData.filter((item:any) =>
       item.p_name.toLowerCase().includes(searchText.toLowerCase()),
     );
     setFilteredData(filtered);
@@ -23,7 +23,7 @@ export const SearchScreen: React.FC = ({navigation}: any) => {
 
   const renderFilteredData = () => {
     if (searchText === '') {
-      return miniCardData.map(item => (
+      return miniCardData.map((item:any) => (
         <CardDetails
           key={item.p_id}
           videoId={item.p_id}

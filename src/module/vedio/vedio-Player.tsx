@@ -7,7 +7,7 @@ import WebView from 'react-native-webview';
 import {Label} from '../../component/label';
 import {Outlines,ScaledSheet} from '../../styles';
 
-export const VideoPlayer = ({route}) => {
+export const VideoPlayer = ({route}:any) => {
   const {videoId, title} = route.params;
   return (
     <View style={styles.container}>

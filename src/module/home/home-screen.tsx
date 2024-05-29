@@ -17,7 +17,7 @@ interface Product {
   url: string;
 }
 
-export const HomeScreen = ({navigation}) => {
+export const HomeScreen = () => {
   const cardData = useSelector((state: any) => state.products);
   const dispatch = useDispatch();
 

@@ -3,9 +3,8 @@
 import React from 'react';
 import {Dimensions, Image, TouchableOpacity, View} from 'react-native';
 
-
 import {ScaledSheet} from 'react-native-size-matters';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 import {Colors} from '../styles';
 import {Label} from './label';
@@ -18,14 +17,18 @@ interface CardDetailsProps {
   videoUrl: string;
 }
 
+export type RootStackParamList = {
+  Home: undefined;
+  VideoPlayer: {videoId: string; title: string};
+};
+
 const CardDetails: React.FC<CardDetailsProps> = ({
   title,
   channel,
   thumbnailUrl,
   videoId,
-  videoUrl,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('VideoPlayer', {videoId, title})}>

@@ -3,13 +3,14 @@ import React from 'react';
 import {StatusBar, View} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 import {Label} from './label';
 import {Colors, ScaledSheet, Typography} from '../styles';
+import {RootStackParamList} from '../../App';
 
 export const Headers = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <>
       <StatusBar
