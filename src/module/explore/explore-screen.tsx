@@ -9,7 +9,7 @@ import {Card} from '../../component/Card';
 import {Colors, Outlines, ScaledSheet} from '../../styles';
 
 
-const LittleCard = ({name}) => {
+const LittleCard = ({name}:any) => {
   return (
     <View style={styles.littleContainer}>
       <Label style={styles.littleLable}>{name}</Label>
@@ -17,7 +17,7 @@ const LittleCard = ({name}) => {
   );
 };
 export const ExploreScreen = () => {
-  const cardData = useSelector(state => state.products);
+  const cardData = useSelector((state:any) => state.products);
   return (
     <View style={styles.container}>
       <Headers />

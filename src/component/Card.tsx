@@ -4,7 +4,7 @@ import React from 'react';
 import {Image, TouchableOpacity, View} from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 import {Label} from './label';
 import {Colors, ScaledSheet} from '../styles';
@@ -17,13 +17,18 @@ interface CardProps {
   videoUrl: string;
 }
 
+export type RootStackParamList = {
+  Home: undefined;
+  VideoPlayer: {videoId: string; title: string};
+};
+
 export const Card: React.FC<CardProps> = ({
   videoId,
   title,
   channel,
   thumbnailUrl,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('VideoPlayer', {videoId, title})}>

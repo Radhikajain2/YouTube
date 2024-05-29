@@ -27,9 +27,14 @@ const rootReducer = combineReducers({
   products: productReducer,
 });
 
+export type RootStackParamList = {
+  Home: undefined;
+  VideoPlayer: {videoId: string; title: string};
+  SearchScreen: undefined;
+};
 const store = createStore(rootReducer);
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 const Tabs = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}: any) => {
